@@ -139,10 +139,13 @@ const Home = ({ initialPokemon }: any) => {
 
 export default Home;
 export async function getStaticProps() {
-  let x = random.int(1, 895);
-  console.log('Number: ', x);
+  let x = random.int(1, 904);
+  if (x < 1 || x === 902) {
+    x += 1;
+  }
+
   let initialPokemon;
-  const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${x + 3}`);
+  const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${x}`);
   initialPokemon = await res.json();
   return {
     props: { initialPokemon },
