@@ -18,7 +18,7 @@ const Home = ({ initialPokemon }: any) => {
       title: title,
     };
     setTitle('');
-    const newData = [...pokes, datosNuevos];
+    const newData: any = [...pokes, datosNuevos];
     setPokes(newData);
     setIntentos(intentos + 1);
     setErrors(errors - 1);
