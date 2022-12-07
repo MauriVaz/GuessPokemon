@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import { useState } from 'react';
+import random from 'random';
 import styles from '../styles/Home.module.css';
 const Home = ({ initialPokemon }: any) => {
   const [guess, setGuess] = useState(false);
@@ -9,7 +10,6 @@ const Home = ({ initialPokemon }: any) => {
   const [pokes, setPokes] = useState([]);
   const [winner, setWinner] = useState(false);
   const [errors, setErrors] = useState(6);
-  const [end, setEnd] = useState(false);
   const name = initialPokemon.name;
   console.log(name);
   const type = initialPokemon.types[0].type.name;
@@ -137,13 +137,9 @@ const Home = ({ initialPokemon }: any) => {
 
 export default Home;
 export async function getStaticProps() {
-  const numeroAleatorio = (max: number, min: number) => {
-    let num = Math.round(Math.random() * (max - min) + min);
-    return num;
-  };
-  let poke = numeroAleatorio(1, 898);
+  let x = random.int(1, 898);
   let initialPokemon;
-  const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${poke}`);
+  const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${x}`);
   initialPokemon = await res.json();
   return {
     props: { initialPokemon },
