@@ -140,8 +140,13 @@ const Home = ({ initialPokemon }: any) => {
 export default Home;
 export async function getStaticProps() {
   let x = random.int(1, 904);
+  x *= x;
   if (x < 1 || x === 902) {
     x += 1;
+  }
+  if (x > 904) {
+    x = Math.sqrt(x);
+    x + 4;
   }
 
   let initialPokemon;
