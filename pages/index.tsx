@@ -11,6 +11,7 @@ const Home = ({ initialPokemon }: any) => {
   const [errors, setErrors] = useState(6);
   const [end, setEnd] = useState(false);
   const name = initialPokemon.name;
+  console.log(name);
   const type = initialPokemon.types[0].type.name;
   const buttonOnsubmitHandler = (evento: any) => {
     evento.preventDefault();
