@@ -58,6 +58,8 @@ const Home = ({ initialPokemon }: any) => {
             alt={initialPokemon.name}
             width={240}
             height={240}
+            priority
+            quality={100}
           />
         </div>
         {winner == false ? (
@@ -137,9 +139,10 @@ const Home = ({ initialPokemon }: any) => {
 
 export default Home;
 export async function getStaticProps() {
-  let x = random.int(1, 898);
+  let x = random.int(1, 895);
+  console.log('Number: ', x);
   let initialPokemon;
-  const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${x}`);
+  const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${x + 3}`);
   initialPokemon = await res.json();
   return {
     props: { initialPokemon },
