@@ -10,6 +10,14 @@ const Home = ({ initialPokemon }: any) => {
   const [pokes, setPokes] = useState([]);
   const [winner, setWinner] = useState(false);
   const [errors, setErrors] = useState(6);
+
+  let today = new Date();
+  let y = today.getSeconds();
+  y = y * 15 + 5;
+  if (y > 905) {
+    y -= 243;
+  }
+  console.log('Number: ', y);
   const name = initialPokemon.name;
   console.log(name);
   const type = initialPokemon.types[0].type.name;
