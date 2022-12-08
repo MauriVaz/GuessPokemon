@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import { useState } from 'react';
-import random from 'random';
 import styles from '../styles/Home.module.css';
 const Home = ({ initialPokemon }: any) => {
   const [guess, setGuess] = useState(false);
@@ -10,6 +9,7 @@ const Home = ({ initialPokemon }: any) => {
   const [pokes, setPokes] = useState([]);
   const [winner, setWinner] = useState(false);
   const [errors, setErrors] = useState(6);
+  const [letter, setLetter] = useState(false);
 
   let today = new Date();
   let y = today.getSeconds();
@@ -17,10 +17,10 @@ const Home = ({ initialPokemon }: any) => {
   if (y > 905) {
     y -= 243;
   }
-  console.log('Number: ', today);
   const name = initialPokemon.name;
-  console.log(name);
-  const type = initialPokemon.types[0].type.name;
+  // const type1 = initialPokemon.types[0].type.name;
+  // const type2 = initialPokemon.types[1].type.name;
+  const types = initialPokemon.types;
   const buttonOnsubmitHandler = (evento: any) => {
     evento.preventDefault();
     const datosNuevos = {
@@ -57,10 +57,11 @@ const Home = ({ initialPokemon }: any) => {
       <main>
         <h1 className="text-center">Pokemon guess</h1>
         <p>Numero de intentos {errors} </p>
-        <div className="flex flex-row justify-center mt-10">
+        <div className=" flex flex-row justify-center mt-10">
           <Image
-            className={`drop-shadow-xl
-            ${winner === false ? 'blur-xl' : 'blur-none'}
+            className={`drop-shadow-xl shadow-lg shadow-blue-500/50
+            bg-cyan-500 rounded-3xl
+            ${winner === false ? 'blur-md' : 'blur-none animate-pulse'}
             `}
             src={initialPokemon.sprites.front_default}
             alt={initialPokemon.name}
@@ -73,32 +74,64 @@ const Home = ({ initialPokemon }: any) => {
         {winner == false ? (
           intentos < 6 ? (
             <>
-              <div className="flex flex-row justify-center my-5">
+              <div className="flex flex-col justify-center my-5">
                 <p>
                   The pokemon name contains {initialPokemon.name.length} letters
                 </p>
               </div>
               <div className="bg-green-100 rounded-2xl p-4">
                 <form onSubmit={buttonOnsubmitHandler}>
-                  <input
-                    type="text"
-                    placeholder="Pokemon name"
-                    name="text"
-                    value={title}
-                    onChange={pokemonOnchangeHandler}
-                    required
-                  />
-                  <button className="rounded-2xl p-2 bg-cyan-300 hover:bg-cyan-500 hover:text-white text-center">
-                    Send Answer
-                  </button>
+                  <div className="flex justify-center">
+                    <input
+                      type="text"
+                      placeholder="Pokemon name"
+                      name="text"
+                      value={title}
+                      onChange={pokemonOnchangeHandler}
+                      required
+                    />
+                    <button className="mx-10 rounded-2xl p-2 bg-cyan-300 hover:bg-cyan-500 hover:text-white text-center">
+                      Send Answer
+                    </button>
+                  </div>
                 </form>
-                <button
-                  onClick={() => {
-                    setGuess(!guess);
-                  }}>
-                  ¿you want a clue?
-                </button>
-                {guess && <p>The pokemon type is {type} </p>}
+                <div className="flex justify-around">
+                  <div className="flex flex-col mt-10">
+                    <button
+                      className="bg-blue-300 hover:bg-blue-500 hover:text-white rounded-3xl p-2"
+                      onClick={() => {
+                        setGuess(!guess);
+                      }}>
+                      {guess ? (
+                        <p>Show the pokemon types</p>
+                      ) : (
+                        <p>Dont show the pokemon types</p>
+                      )}
+                    </button>
+                    {guess && (
+                      <>
+                        {types.map((e: any, index: number) => {
+                          return (
+                            <p key={index}>
+                              {e.type.name.charAt(0).toUpperCase() +
+                                e.type.name
+                                  .toLowerCase()
+                                  .substring(1, e.type.name.length)}{' '}
+                            </p>
+                          );
+                        })}
+                      </>
+                    )}
+                  </div>
+                  <div className="flex flex-col mt-10">
+                    <button
+                      className="bg-blue-300 hover:bg-blue-500 hover:text-white rounded-3xl p-2"
+                      onClick={() => setLetter(!letter)}>
+                      Show the first letter of pokemon
+                    </button>
+                    {letter && <p>{name.charAt(0).toUpperCase()} </p>}
+                  </div>
+                </div>
               </div>
               <div className="flex flex-col text-center">
                 <p>Your answers {pokes.length} </p>
@@ -146,7 +179,7 @@ const Home = ({ initialPokemon }: any) => {
 };
 
 export default Home;
-export async function getServerSideProps() {
+export async function getServerSideProps(goals: number) {
   let today = new Date();
   let y = today.getSeconds() * 15;
   let initialPokemon;
