@@ -146,13 +146,9 @@ const Home = ({ initialPokemon }: any) => {
 };
 
 export default Home;
-export async function getStaticProps() {
+export async function getServerSideProps() {
   let today = new Date();
-  let y = today.getSeconds();
-  y = y * 15 + 5;
-  if (y > 905) {
-    y = y - 243;
-  }
+  let y = today.getSeconds() * 15;
   let initialPokemon;
   const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${y}`);
   initialPokemon = await res.json();
