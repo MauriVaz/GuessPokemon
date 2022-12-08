@@ -17,7 +17,7 @@ const Home = ({ initialPokemon }: any) => {
   if (y > 905) {
     y -= 243;
   }
-  console.log('Number: ', y);
+  console.log('Number: ', today);
   const name = initialPokemon.name;
   console.log(name);
   const type = initialPokemon.types[0].type.name;
@@ -39,7 +39,7 @@ const Home = ({ initialPokemon }: any) => {
     }
   };
   const pokemonOnchangeHandler = (evento: any) => {
-    setTitle(evento.target.value);
+    setTitle(evento.target.value.toLowerCase());
     if (name === title) {
       setWinner(true);
     }
